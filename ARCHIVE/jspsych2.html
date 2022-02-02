@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="jspsych.js"></script>
+  <script src="plugins/jspsych-image-slider-response.js"></script>
+  <script src="plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="plugins/jspsych-preload.js"></script>
+  <script src="plugins/jspsych-survey-text.js"></script>
+  <script src="plugins/jspsych-survey-multi-choice.js"></script>
+  <link rel="stylesheet" href="css/jspsych.css"></link>
+</head>
+<body></body>
+<script>
+
+ var welcome_trial= {
+  type: 'html-keyboard-response',
+  stimulus: 'Welcome to the Task!'
+ }
+
+ var instructions_trial = {
+  type: 'html-keyboard-response',
+  stimulus: 'You will be asked a series of questions about the images displayed on the screen. Please move the slider to record your response about the images!' 
+ }
+
+  // three images are used in a standard way in image-* plugins and can therefore be automatically preloaded.
+  // there's one additional image ('img/happy_face_4.jpg') that is only used in timeline variables 
+  // and will not be automatically preloaded, so this file must be preloaded manually.
+ 
+var preload = {
+    type: 'preload',
+    auto_preload: true, 
+    images: ['img/bowties.jpg']
+  }
+  // If render_on_canvas is false, the images will be shown via an <img> rather than <canvas> element.
+  // In some browsers, the first time the images are shown, the <img> method (render_on_canvas: false) will produce a brief 
+  // blank screen (white flash) between images that are presented consecutively with no post_trial_gap between them.
+        
+var trial = {
+    type: 'image-slider-response',
+    stimulus: jsPsych.timelineVariable('stim'),
+    labels: ['1 (very similar)', '5 (very different)'],
+    prompt: '<p>How similar or different are the kinds of these objects?</p>',
+    slider_width: 500,
+    stimulus_width: 400, 
+    maintain_aspect_ratio: true,
+    post_trial_gap: 0,
+    response_ends_trial: true, 
+    //render_on_canvas: false 
+  }
+
+ var trial_1 = {
+    type: 'html-keyboard-response',
+    stimulus: 'This trial is in a loop. Press R to repeat this trial, or C to save data.',
+    choices: ['r','c']
+}
+
+var loop_node = {
+    timeline: [trial],
+    loop_function: function(data){
+        if(jsPsych.pluginAPI.compareKeys(data.values()[0].response, 'r')){
+            return true;
+        } else {
+            return false;
+        }
+    }
+  } 
+
+var start_quiz = {
+      type: 'html-keyboard-response',
+      data: {category: 'start_quiz'},
+      stimulus: "We will now present you a short quiz to make sure you understood the instructions.</br></br>"+
+                "Please press the 'N' key to begin a new block.",
+      choices: keys_go_next,
+      response_ends_trial: true}
+
+      
+  var instructions_quiz = {
+
+
+
+  }
+
+  var trial_proc = {
+    timeline: [trial],
+    timeline_variables: [ 
+      {stim: 'img/bowties.jpg'},
+      {stim: 'img/balloons.jpg'},
+      {stim: 'img/binoculars.jpg'},
+      {stim: 'img/bagel.jpg'},
+      {stim:'img/broom.jpg'},
+      {stim: 'img/bucket.jpg'},
+      {stim: 'img/stocking.jpg'},
+      {stim: 'img/hammer.jpg'},
+      {stim:'img/crib.jpg'},
+      {stim:'img/hourglass.jpg'},
+      {stim: 'img/golfball.jpg'},
+      {stim: 'img/dumbbell.jpg'},
+      {stim: 'img/lawnmower.jpg'},
+      {stim: 'img/lipstick.jpg'},
+      {stim: 'img/mask.jpg'},
+      {stim: 'img/mushroom.jpg'},
+      {stim: 'img/pumpkin.jpg'},
+      {stim: 'img/microwave.jpg'},
+      {stim: 'img/mug.jpg'},
+      {stim: 'img/mushroom.jpg'},
+      {stim: 'img/necklaces.jpg'},
+      {stim: 'img/pizza.jpg'},
+      {stim: 'img/scale.jpg'},
+      {stim: 'img/suit.jpg'},
+      {stim: 'img/toilet.jpg'},
+      {stim: 'img/tricycle.jpg'},
+      {stim: 'img/umbrella.jpg'},
+      {stim: 'img/vase.jpg'},
+      {stim: 'img/wigs.jpg'},
+    ]
+  }
+var instructions_trial2= {
+  type: 'html-keyboard-response',
+  stimulus: 'Now you will be asked how similar and/or different the SHAPES of the objects on the image. Please respond using the slider displayed below the image. Press space bar to proceed' 
+}
+
+  var trial_2 = {
+    type: 'image-slider-response',
+    stimulus: jsPsych.timelineVariable('stim'),
+    labels: ['1 (very similar)', '5 (very different)'],
+    prompt: '<p>How similar or different are the shapes of these objects?</p>',
+    slider_width: 500,
+    stimulus_width: 400, 
+    maintain_aspect_ratio: true,
+    post_trial_gap: 0,
+    response_ends_trial: true,
+  }
+
+    var trial_proc2 = {
+    timeline: [trial_2], 
+    timeline_variables: [ 
+      {stim: 'img/bowties.jpg'},
+      {stim: 'img/balloons.jpg'},
+      {stim: 'img/binoculars.jpg'},
+      {stim: 'img/bagel.jpg'},
+      {stim: 'img/broom.jpg'},
+      {stim: 'img/bucket.jpg'},
+      {stim: 'img/stocking.jpg'},
+      {stim: 'img/hammer.jpg'},
+      {stim: 'img/crib.jpg'},
+      {stim: 'img/hourglass.jpg'},
+      {stim: 'img/golfball.jpg'},
+      {stim: 'img/dumbbell.jpg'},
+      {stim: 'img/lawnmower.jpg'},
+      {stim: 'img/lipstick.jpg'},
+      {stim: 'img/mask.jpg'},
+      {stim: 'img/mushroom.jpg'},
+      {stim: 'img/pumpkin.jpg'},
+      {stim: 'img/microwave.jpg'},
+      {stim: 'img/mug.jpg'},
+      {stim: 'img/mushroom.jpg'},
+      {stim: 'img/necklaces.jpg'},
+      {stim: 'img/pizza.jpg'},
+      {stim: 'img/scale.jpg'},
+      {stim: 'img/suit.jpg'},
+      {stim: 'img/toilet.jpg'},
+      {stim: 'img/tricycle.jpg'},
+      {stim: 'img/umbrella.jpg'},
+      {stim: 'img/vase.jpg'},
+      {stim: 'img/wigs.jpg'},
+    ]
+  }
+var instructions_trial3= {
+  type: 'html-keyboard-response',
+  stimulus: 'Now you will be asked how similar and/or different the COLORS of the objects on the image. Please respond using the slider displayed below the image. Press space bar to proceed.' 
+}
+  var trial_3 = {
+    type: 'image-slider-response',   
+    stimulus: jsPsych.timelineVariable('stim'),
+    labels: ['1 (very similar)', '5 (very different)'],
+    prompt: '<p>How similar or different are the colors of these objects?</p>',
+    slider_width: 500,
+    stimulus_width: 400, 
+    maintain_aspect_ratio: true,
+    post_trial_gap: 0,
+    response_ends_trial: true,
+  }
+  var trial_proc3 = {
+    timeline: [trial_3], 
+    timeline_variables: [ 
+      {stim: 'img/bowties.jpg'},
+      {stim: 'img/balloons.jpg'},
+      {stim:'img/binoculars.jpg'},
+      {stim: 'img/bagel.jpg'},
+      {stim:'img/broom.jpg'},
+      {stim: 'img/bucket.jpg'},
+      {stim: 'img/stocking.jpg'},
+      {stim: 'img/hammer.jpg'},
+      {stim:'img/crib.jpg'},
+      {stim:'img/hourglass.jpg'},
+      {stim: 'img/golfball.jpg'},
+      {stim: 'img/dumbbell.jpg'},
+      {stim: 'img/lawnmower.jpg'},
+      {stim: 'img/lipstick.jpg'},
+      {stim: 'img/mask.jpg'},
+      {stim: 'img/mushroom.jpg'},
+      {stim: 'img/pumpkin.jpg'},
+      {stim: 'img/microwave.jpg'},
+      {stim: 'img/mug.jpg'},
+      {stim: 'img/mushroom.jpg'},
+      {stim: 'img/necklaces.jpg'},
+      {stim: 'img/pizza.jpg'},
+      {stim: 'img/scale.jpg'},
+      {stim: 'img/suit.jpg'},
+      {stim: 'img/toilet.jpg'},
+      {stim: 'img/tricycle.jpg'},
+      {stim: 'img/umbrella.jpg'},
+      {stim: 'img/vase.jpg'},
+      {stim: 'img/wigs.jpg'},
+    ]
+  }
+
+var trial_4 = {
+type: 'survey-text',
+preamble: jsPsych.timelineVariable('stim'),
+questions: [
+{prompt: "What kinds of objects are these? Type your response below", rows: 10, columns: 40
+}],
+} 
+
+var instructions_trial4 = {
+  type: 'html-keyboard-response',
+  stimulus: 'Now you will be asked what kinds of objects are displayed on the image. Please respond using the textbox displayed below.'
+}
+
+var trial_proc4 = {
+    timeline: [trial_4], 
+    timeline_variables: [ 
+      {stim: 'img/bowties.jpg'},
+      {stim: 'img/balloons.jpg'},
+      {stim:'img/binoculars.jpg'},
+      {stim: 'img/bagel.jpg'},
+      {stim:'img/broom.jpg'},
+      {stim: 'img/bucket.jpg'},
+      {stim: 'img/stocking.jpg'},
+      {stim: 'img/hammer.jpg'},
+      {stim:'img/crib.jpg'},
+      {stim:'img/hourglass.jpg'},
+      {stim: 'img/golfball.jpg'},
+      {stim: 'img/dumbbell.jpg'},
+      {stim: 'img/lawnmower.jpg'},
+      {stim: 'img/lipstick.jpg'},
+      {stim: 'img/mask.jpg'},
+      {stim: 'img/mushroom.jpg'},
+      {stim: 'img/pumpkin.jpg'},
+      {stim: 'img/microwave.jpg'},
+      {stim: 'img/mug.jpg'},
+      {stim: 'img/mushroom.jpg'},
+      {stim: 'img/necklaces.jpg'},
+      {stim: 'img/pizza.jpg'},
+      {stim: 'img/scale.jpg'},
+      {stim: 'img/suit.jpg'},
+      {stim: 'img/toilet.jpg'},
+      {stim: 'img/tricycle.jpg'},
+      {stim: 'img/umbrella.jpg'},
+      {stim: 'img/vase.jpg'},
+      {stim: 'img/wigs.jpg'},
+    ]
+  }
+  jsPsych.init({
+    timeline: [preload, welcome_trial, instructions_trial, trial_proc, instructions_trial2, trial_proc2, instructions_trial3, trial_proc3, instructions_trial4, trial_proc4,trial_1],
+
+    on_finish: function() { 
+      jsPsych.data.get().localSave('csv','data.csv');
+      downloadCSV(csv, filename); 
+      jsPsych.data.displayData(); 
+    }
+  }); 
+</script>
+</html>

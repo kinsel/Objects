@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="jspsych.js"></script>
+  <script src="plugins/jspsych-image-slider-response.js"></script>
+  <script src="plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="plugins/jspsych-preload.js"></script>
+  <script src="parameters/parameters.js"></script>
+  <script src="parameters/functions.js"></script>
+  <script src="plugins/jspsych-survey-text.js"></script>
+  <script src="plugins/jspsych-survey-multi-choice.js"></script>
+  <link rel="stylesheet" href="css/jspsych.css"></link>
+</head>
+<body></body>
+<script>
+
+var timeline = [];
+
+
+ var welcome_trial= {
+  type: 'html-keyboard-response',
+  stimulus: 'Welcome to the Task!'
+ }
+
+ var instructions_trial = {
+  type: 'html-keyboard-response',
+  stimulus: 'Our study requires your undivided attention. You will be asked a series of questions about the images displayed on the screen. Please move the slider to record your response about the images!' 
+ }
+
+  
+
+var missed_instruction_checkup = {
+        type: 'html-keyboard-response',
+        data: {ttype: 'missed_instruction_checkup'},
+        stimulus: "Sorry, you missed one or more questions.</br></br>"+
+                  "Please press the 'N' key to repeat the instructions.",
+        choices: keys_go_next,
+        response_ends_trial: true,
+        on_finish: function(data){
+          data.missed_checkup = 1
+        } // on_finish
+      } // missed_instruction_checkup
+
+  // If participants pass the comprehension check, they can start the phase
+  var start_phase = {
+        type: 'html-keyboard-response',
+        data: {ttype: 'start_phase'},
+        stimulus: "Great, you're ready to start!</br></br>"+
+                  "Please press the 'N' key to begin.",
+        choices: keys_go_next,
+        response_ends_trial: true
+  } // start_phase
+
+
+var start_quiz = {
+      type: 'html-keyboard-response',
+      data: {ttype: 'start_quiz'},
+      stimulus: "We will now present you a short quiz to make sure you understood the instructions. Please press the 'N' key to begin a new block.",
+      choices: keys_go_next, 
+      response_ends_trial: true}
+
+
+repeat_simdiff_instructions = present_quiz_instructions(instructions_trial, 'simdiff_comprehension_check', quiz_qs.simdiff, quiz_answers.simdiff)
+
+timeline.push(repeat_simdiff_instructions, start_phase)
+
+ 
+
+  jsPsych.init({
+    timeline: [welcome_trial, instructions_trial, start_quiz, missed_instruction_checkup, start_phase], 
+
+    on_finish: function() { 
+      jsPsych.data.get().localSave('csv','data.csv');
+      downloadCSV(csv, filename); 
+      jsPsych.data.displayData(); 
+    }
+  }); 
+  
+</script>
+
+</html>
